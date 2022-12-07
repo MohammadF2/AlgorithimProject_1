@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="GameRoot" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.algorithimproject_1.GameControler">
+
+    <children>
+        <Label alignment="CENTER" layoutX="471.0" layoutY="14.0" prefHeight="50.0" prefWidth="339.0" styleClass="topMessage" stylesheets="@Style.css" text="Welcome to the game of luck" />
+      <TextField fx:id="DataTF" layoutX="577.0" layoutY="345.0" prefHeight="31.0" prefWidth="127.0" styleClass="textField" stylesheets="@Style.css" />
+      <Button fx:id="StartB" layoutX="601.0" layoutY="399.0" mnemonicParsing="false" onAction="#startOnAction" text="Start" />
+      <Button fx:id="BackB" layoutX="1125.0" layoutY="596.0" mnemonicParsing="false" onAction="#backOnAction" text="Exit" />
+      <Label layoutX="426.0" layoutY="346.0" prefHeight="30.0" prefWidth="145.0" styleClass="topMessage" stylesheets="@Style.css" text="Data number: " />
+    </children>
+
+</AnchorPane>
