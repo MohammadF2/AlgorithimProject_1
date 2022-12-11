@@ -4,7 +4,7 @@ public class DriverTestingV2 {
 
     public static void main(String[] args) {
 
-        int[] arr = { 4, 15, 3, 7, 8 ,9 };
+        int[] arr = { 69, 96, 4, 5, 10, 15, 17, 18 };
 
         findOptimalSolution(arr);
 
@@ -31,24 +31,33 @@ public class DriverTestingV2 {
             if ((i == 0 && j == 0) || (i == arr.length -1 && j == arr.length-1 )){ // this solves the edge cases where i has no previous or i has no bottom number
 
                 table[i][j] = new PlayerSpot(arr[i],0);
-                System.out.println(table[i][j].getFirst().getSum());
+                System.out.println(table[i][j].getFirst().getSum()+ ", 0" );
 
             } else if (table[i-1][j].getFirst().getSum() == 0 && table[i][j+1].getFirst().getSum() == 0){
 
                 table[i][j] = new PlayerSpot(arr[i],0);
-                System.out.println(table[i][j].getFirst().getSum());
+                System.out.println(table[i][j].getFirst().getSum() + ", 0" );
 
             } else {
-
                 if (i-2 < 0){
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
-                } else if(table[i-1][j].getFirst().getSum() == 0){
+                    System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
+                } else if(table[i-2][j].getFirst().getSum() == 0){
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
+                    System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
                 } else {
-                   // int p = Math.max(table[i][j]);
-                    //table[i][j] = new PlayerSpot()
+                    int playerOne;
+                    int playerTwo;
+                    if (arr[i] + table[i-1][j].getSecond().getSum() > arr[j] + table[i][j+1].getSecond().getSum()){
+                        playerOne = arr[i] + table[i-1][j].getSecond().getSum();
+                        playerTwo = table[i-1][j].getFirst().getSum();
+                    } else {
+                        playerOne = arr[j] + table[i][j+1].getSecond().getSum();
+                        playerTwo = table[i][j+1].getFirst().getSum();
+                    }
+                    table[i][j] = new PlayerSpot(playerOne,playerTwo);
+                    System.out.println(playerOne + ", " + playerTwo);
                 }
-
             }
 
             // powered by nabhan
@@ -58,13 +67,26 @@ public class DriverTestingV2 {
                 i = gap;
                 gap++;
                 j = 0;
-                System.out.println("Gap has been updated ");
             } else {
                 i++;
                 j++;
-                System.out.println(i + " i "+ j + " j ");
             }
 
+        }
+
+
+        for (int s = 0; s < table.length; s++){
+            if(arr[s] > 9)
+                System.out.print("| " + arr[s] + " -> | ");
+            else
+                System.out.print("| " + arr[s] + "  -> | ");
+            for (int p = 0; p < table[s].length; p++){
+                if(table[s][p].getFirst().getSum() > 9)
+                    System.out.print(table[s][p].getFirst().getSum() + "  ");
+                else
+                    System.out.print(table[s][p].getFirst().getSum() + "   ");
+            }
+            System.out.print("\n|\n");
         }
 
 
