@@ -14,6 +14,14 @@ public class PlayerSpot {
         return first;
     }
 
+    public void setFirst(Coin first) {
+        this.first = first;
+    }
+
+    public void setSecond(Coin second) {
+        this.second = second;
+    }
+
     public Coin getSecond() {
         return second;
     }

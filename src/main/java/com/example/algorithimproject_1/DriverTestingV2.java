@@ -1,10 +1,12 @@
 package com.example.algorithimproject_1;
 
+import java.util.ArrayList;
+
 public class DriverTestingV2 {
 
     public static void main(String[] args) {
 
-        int[] arr = { 69, 96, 4, 5, 10, 15, 17, 18 };
+        int[] arr = { 5, 3, 7, 10 };
 
         findOptimalSolution(arr);
 
@@ -32,30 +34,56 @@ public class DriverTestingV2 {
 
                 table[i][j] = new PlayerSpot(arr[i],0);
                 System.out.println(table[i][j].getFirst().getSum()+ ", 0" );
+                table[i][j].getFirst().addToRoot(arr[i]);
+                table[i][j].getSecond().addToRoot(0);
 
             } else if (table[i-1][j].getFirst().getSum() == 0 && table[i][j+1].getFirst().getSum() == 0){
 
                 table[i][j] = new PlayerSpot(arr[i],0);
                 System.out.println(table[i][j].getFirst().getSum() + ", 0" );
+                table[i][j].getFirst().addToRoot(arr[i]);
+                table[i][j].getSecond().addToRoot(0);
 
             } else {
                 if (i-2 < 0){
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
+                    table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
+                    table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                 } else if(table[i-2][j].getFirst().getSum() == 0){
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
+                    table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
+                    table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                 } else {
                     int playerOne;
                     int playerTwo;
+                    ArrayList<Integer> playerOneNumbers = new ArrayList<>();
+                    ArrayList<Integer> playerTwoNumbers = new ArrayList<>();
                     if (arr[i] + table[i-1][j].getSecond().getSum() > arr[j] + table[i][j+1].getSecond().getSum()){
                         playerOne = arr[i] + table[i-1][j].getSecond().getSum();
                         playerTwo = table[i-1][j].getFirst().getSum();
+                        playerOneNumbers.add(arr[i]);
+                        for (int t = 0; t < table[i-1][j].getSecond().getRoot().size(); t++){
+                            playerOneNumbers.add(table[i-1][j].getSecond().getRoot().get(t));
+                        }
+                        for (int t = 0; t < table[i-1][j].getFirst().getRoot().size(); t++){
+                            playerTwoNumbers.add(table[i-1][j].getFirst().getRoot().get(t));
+                        }
+
                     } else {
                         playerOne = arr[j] + table[i][j+1].getSecond().getSum();
                         playerTwo = table[i][j+1].getFirst().getSum();
+                        for (int t = 0; t < table[i][j+1].getSecond().getRoot().size(); t++){
+                            playerOneNumbers.add(table[i][j+1].getSecond().getRoot().get(t));
+                        }
+                        for (int t = 0; t < table[i][j+1].getFirst().getRoot().size(); t++){
+                            playerTwoNumbers.add(table[i][j+1].getFirst().getRoot().get(t));
+                        }
                     }
                     table[i][j] = new PlayerSpot(playerOne,playerTwo);
+                    table[i][j].getFirst().setRoot(playerOneNumbers);
+                    table[i][j].getSecond().setRoot(playerTwoNumbers);
                     System.out.println(playerOne + ", " + playerTwo);
                 }
             }
@@ -89,6 +117,9 @@ public class DriverTestingV2 {
             System.out.print("\n|\n");
         }
 
+        for (int i = 0; i < table[arr.length-1][0].getFirst().getRoot().size(); i++){
+            System.out.println(table[arr.length-1][0].getFirst().getRoot().get(i));
+        }
 
     }
 

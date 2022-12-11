@@ -3,7 +3,7 @@ package com.example.algorithimproject_1;
 public class DriverTesting {
 
     public static void main(String[] args) {
-        int arr1[] = { 69, 96, 4, 5, 10, 15, 17, 18 };
+        int arr1[] = { 11, 7, 13, 12 };
         int n = arr1.length;
         System.out.println("\n\n\n" + optimalStrategyOfGame(arr1, n));
     }
