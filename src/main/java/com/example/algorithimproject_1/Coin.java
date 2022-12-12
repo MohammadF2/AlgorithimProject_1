@@ -32,6 +32,9 @@ public class Coin {
 
     public void addToRoot(int n){
         root.add(n);
+
+        //System.out.println(n + " was added to root!! Root size now " + root.size());
+
     }
 
 }

@@ -13,9 +13,35 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-border-color: white;
-    -fx-text-fill: white;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Serif;
+    -fx-background-color: #ff5353;
+    -fx-font-size: 24;
+}
+
+
+.text-area {
     -fx-font-family: Serif;
     -fx-font-size: 24;
+    -fx-text-fill: #000000;
+}
+
+#grid {
+    -fx-background-color: white;
+    -fx-font-size: 16;
+    -fx-cell-size: 5px 5px;
+    -fx-alignment: center;
+    -fx-padding: 10 10 10 10;
+    -fx-text-alignment: center;
+}
+
+#lablesGrid {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.text-area .content {
+    -fx-background-color: transparent;
 }
 
 

@@ -6,7 +6,7 @@ public class DriverTestingV2 {
 
     public static void main(String[] args) {
 
-        int[] arr = { 5, 3, 7, 10 };
+        int[] arr = { 4,15, 3, 7, 8, 9 };
 
         findOptimalSolution(arr);
 
@@ -25,9 +25,6 @@ public class DriverTestingV2 {
             }
             System.out.println();
         }
-
-
-
 
         for(int i = 0, j = 0; (i <= table.length - 1 && j >= 0) ; ){ // 4, 15, 3, 7, 8, 9
             if ((i == 0 && j == 0) || (i == arr.length -1 && j == arr.length-1 )){ // this solves the edge cases where i has no previous or i has no bottom number
@@ -50,11 +47,17 @@ public class DriverTestingV2 {
                     System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
                     table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
+
+                    System.out.println(table[i][j].getFirst().getSum() + " --Root--> " + table[i][j].getFirst().getRoot().get(0));
+                    System.out.println(table[i][j].getSecond().getSum() + " --Root--> " + table[i][j].getSecond().getRoot().get(0));
                 } else if(table[i-2][j].getFirst().getSum() == 0){
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     System.out.println(table[i][j].getFirst().getSum() + ", " + table[i][j].getSecond().getSum());
                     table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
+
+                    System.out.println(table[i][j].getFirst().getSum() + " --Root--> " + table[i][j].getFirst().getRoot().get(0));
+                    System.out.println(table[i][j].getSecond().getSum() + " --Root--> " + table[i][j].getSecond().getRoot().get(0));
                 } else {
                     int playerOne;
                     int playerTwo;
@@ -64,9 +67,11 @@ public class DriverTestingV2 {
                         playerOne = arr[i] + table[i-1][j].getSecond().getSum();
                         playerTwo = table[i-1][j].getFirst().getSum();
                         playerOneNumbers.add(arr[i]);
+                        System.out.println(table[i][j+1].getSecond().getRoot().size());
                         for (int t = 0; t < table[i-1][j].getSecond().getRoot().size(); t++){
                             playerOneNumbers.add(table[i-1][j].getSecond().getRoot().get(t));
                         }
+                        System.out.println(table[i-1][j].getFirst().getRoot().size());
                         for (int t = 0; t < table[i-1][j].getFirst().getRoot().size(); t++){
                             playerTwoNumbers.add(table[i-1][j].getFirst().getRoot().get(t));
                         }
@@ -74,6 +79,8 @@ public class DriverTestingV2 {
                     } else {
                         playerOne = arr[j] + table[i][j+1].getSecond().getSum();
                         playerTwo = table[i][j+1].getFirst().getSum();
+                        playerOneNumbers.add(arr[j]);
+                        System.out.println("hehe");
                         for (int t = 0; t < table[i][j+1].getSecond().getRoot().size(); t++){
                             playerOneNumbers.add(table[i][j+1].getSecond().getRoot().get(t));
                         }
@@ -103,6 +110,8 @@ public class DriverTestingV2 {
         }
 
 
+
+        System.out.print("\n\n\n\n");
         for (int s = 0; s < table.length; s++){
             if(arr[s] > 9)
                 System.out.print("| " + arr[s] + " -> | ");
@@ -114,8 +123,12 @@ public class DriverTestingV2 {
                 else
                     System.out.print(table[s][p].getFirst().getSum() + "   ");
             }
-            System.out.print("\n|\n");
+            System.out.print("\n");
         }
+
+        System.out.print("\n\n\n\n");
+        System.out.println(table[arr.length - 1][ 0 ].getFirst().getSum());
+        System.out.print("\n\n\n\n");
 
         for (int i = 0; i < table[arr.length-1][0].getFirst().getRoot().size(); i++){
             System.out.println(table[arr.length-1][0].getFirst().getRoot().get(i));
