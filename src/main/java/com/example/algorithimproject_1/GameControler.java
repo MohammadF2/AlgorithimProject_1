@@ -84,6 +84,13 @@ public class GameControler {
         player1L.setLayoutY(440);
         player1L.setLayoutX(1140);
 
+        Button expandTable = new Button("Expand table");
+        expandTable.setLayoutX(440);
+        expandTable.setLayoutY(269);
+        expandTable.setPrefSize(127,46);
+
+
+
         Label player2L = new Label("Player 2");
         player2L.setId("lables");
         player2L.setLayoutY(680);
@@ -140,10 +147,17 @@ public class GameControler {
 
         GridPane tableView = new GridPane();
         tableView.setGridLinesVisible(true);
-        tableView.setLayoutY(14);
-        tableView.setLayoutX(835);
-        tableView.setPrefSize(410,410);
+        //tableView.setLayoutY(14);
+        //tableView.setLayoutX(835);
+        //tableView.setPrefSize(410,410);
         tableView.setId("grid");
+
+        ScrollPane sp = new ScrollPane();
+        sp.setLayoutY(14);
+        sp.setLayoutX(835);
+        sp.setPrefSize(410,410);
+
+        sp.setContent(tableView);
 
 
 
@@ -166,7 +180,7 @@ public class GameControler {
         //System.out.println("here");
         int x = 1100, y = 560;
 
-        root.getChildren().addAll(player1L,player2L, startB, BackB, EnterDataL, dataTF, resultL, resultTF, coinsL, coinsTF, tableView);
+        root.getChildren().addAll(player1L,player2L, startB, BackB, EnterDataL, dataTF, resultL, resultTF, coinsL, coinsTF, sp);
 
 
         for (int i = 0; i < textFields.length; i++){
@@ -229,11 +243,7 @@ public class GameControler {
 
         int gap = 1;
 
-        for (int i = 0; i < table.length; i++){ // initialize bottom half of the table, always if j > i then we are in the bottom half
-            for (int j = (i+1); j < table[i].length; j++){
-                table[i][j] = new PlayerSpot(0,0);
-            }
-        }
+
 
 
         for(int i = 0, j = 0; (i <= table.length - 1 && j >= 0) ; ){ // 4, 15, 3, 7, 8, 9
@@ -243,23 +253,20 @@ public class GameControler {
                 table[i][j].getFirst().addToRoot(arr[i]);
                 table[i][j].getSecond().addToRoot(0);
 
-            } else if (table[i-1][j].getFirst().getSum() == 0 && table[i][j+1].getFirst().getSum() == 0){
+            } else if (i-j < 0 || i == j){
 
                 table[i][j] = new PlayerSpot(arr[i],0);
                 table[i][j].getFirst().addToRoot(arr[i]);
                 table[i][j].getSecond().addToRoot(0);
 
             } else {
-                if (i-2 < 0){
+                if (i-2 < 0 || (i-2) < j){
+                    System.out.println("here " + i + " " + j);
+
+
                     table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
                     table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
-
-                } else if(table[i-2][j].getFirst().getSum() == 0){
-                    table[i][j] = new PlayerSpot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()),Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
-                    table[i][j].getFirst().addToRoot(Math.max(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
-                    table[i][j].getSecond().addToRoot(Math.min(table[i-1][j].getFirst().getSum(), table[i][j+1].getFirst().getSum()));
-
                 } else {
                     int playerOne;
                     int playerTwo;
@@ -305,32 +312,54 @@ public class GameControler {
 
 
 
+        int units = 0;
+        int number = table[arr.length - 1][0].getFirst().getSum();
+
+
+        while (number > 1) {
+            units++;
+            number = number/10;
+        }
+
 
         int rowCount = table.length;
         int columnCount = table.length;
 
         RowConstraints rc = new RowConstraints();
-        rc.setPercentHeight(100d / rowCount);
+        rc.setPercentHeight(1000d / rowCount);
+        rc.setPrefHeight(50);
 
         for (int i = 0; i < rowCount; i++) {
             ta.getRowConstraints().add(rc);
         }
 
         ColumnConstraints cc = new ColumnConstraints();
-        cc.setPercentWidth(100d / columnCount);
+        cc.setPercentWidth(1000d / columnCount);
+        cc.setPrefWidth(50);
 
         for (int i = 0; i < columnCount; i++) {
             ta.getColumnConstraints().add(cc);
         }
 
 
+
+
+
         for (int i = 0; i < table.length; i++){
             for (int j = 0; j < table[i].length; j++){
-                Label l1 = new Label(table[i][j].getFirst().getSum() + "");
-                l1.setId("lablesGrid");
-                l1.setMaxWidth(Double.MAX_VALUE);
-                l1.setAlignment(Pos.CENTER_RIGHT);
-                ta.add(l1, i, j);
+                if (table[i][j] == null) {
+                    Label l1 = new Label("0");
+                    l1.setId("lablesGrid");
+                    l1.setMaxWidth(Double.MAX_VALUE);
+                    l1.setAlignment(Pos.CENTER_RIGHT);
+                    ta.add(l1, i, j);
+                } else {
+                    Label l1 = new Label(table[i][j].getFirst().getSum() + "");
+                    l1.setId("lablesGrid");
+                    l1.setMaxWidth(Double.MAX_VALUE);
+                    l1.setAlignment(Pos.CENTER_RIGHT);
+                    ta.add(l1, i, j);
+                }
             }
         }
 

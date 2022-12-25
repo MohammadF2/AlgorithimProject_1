@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Coin {
 
-    private ArrayList<Integer> root = new ArrayList<>();
+    private ArrayList<Integer> root;
     private int sum;
 
     public Coin(int sum) {
